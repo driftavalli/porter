@@ -23,7 +23,7 @@
     `kubectl apply -f porter.yaml`
 
 ## Router configuration
-`Different router configurations are different. Only the configuration of a Cisco Layer 3 switch is listed here. For more details, please refer to the router configuration. This section uses Cisco's Nexus 9000 Series as an example.`
+`Configuration for routers will differ based on the Vendor. The configuration below is for a Cisco Layer 3 switch (Nexus 9000 Series)[https://www.cisco.com/c/en/us/products/switches/nexus-9000-series-switches/index.html]. For more details, please refer to your Vendor documentation for the specific router model.`
 1. Enter the N9K configuration interface as admin. Modify the following configuration according to the actual situation. (Note: the actual input cannot be commented)
     ```
     Feature bgp ##Enable BGP function
