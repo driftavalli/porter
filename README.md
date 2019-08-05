@@ -2,13 +2,15 @@
 ![go report](https://goreportcard.com/badge/github.com/kubesphere/porter)
 
 # Porter
+`Porter` is a load balancer for physical machine deployment Kubernetes. The load balancer is implemented using physical switches, leveraging BGP and ECMP for optimal performance and high availability. We know that in the Kubernetes environment deployed on the cloud, the cloud service provider usually provides the cloud LB plugin to expose the Kubernetes service to the external network. However, in the physical machine deployment environment, because the cloud environment is not available, the service is exposed to the external network. Porter is A plug-in that provides users with exposed services in the physical environment and exposed service consistency experiences on the cloud. The plugin provides two major functional modules:
 
-`Porter` 是一款适用于物理机部署 Kubernetes 的负载均衡器，该负载均衡器使用物理交换机实现，利用 BGP 和 ECMP 从而达到性能最优和高可用性。我们知道在云上部署的 Kubernetes 环境下，通常云服务厂商会提供 cloud LB 插件暴露 Kubernetes 服务到外网，但在物理机部署环境下由于没有云环境，服务暴露给外网非常不方便，Porter 是一个提供用户在物理环境暴露服务和在云上暴露服务一致性体验的插件。该插件提供两大功能模块：
+1. The LB controller and the agent: controller are responsible for synchronizing the BGP routes to the physical switch; the agent is deployed to the node in the DaemonSet mode to maintain the drainage rules.
+2. The EIP service, including the EIP pool management and EIP controller, is responsible for updating the EIP information of the service.
 
-1. LB controller 和 agent: controller 负责同步 BGP 路由到物理交换机；agent 以 DaemonSet 方式部署到节点上负责维护引流规则；
-2. EIP service，包括 EIP pool 管理和 EIP controller，controller 会负责更新服务的 EIP 信息。
+Porter is a subproject of [KubeSphere](https://kubesphere.io/). 
 
-Porter 是 [KubeSphere](https://kubesphere.io/) 的一个子项目。
+## Physical deployment architecture
+The following figure is a physical deployment architecture diagram. Suppose a service is deployed on node1 (192.168.0.2) and node2 (192.168.0.6). The service needs to be accessed through public IP 1.1.1.1. After the service deployer deploys the service according to the example. Porter will automatically synchronize routing information to the leaf switch, and then synchronize to the spine, border switch, Internet users can directly access the service through EIP 1.1.1.1.
 
 
 ## 物理部署架构
