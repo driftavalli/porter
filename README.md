@@ -24,17 +24,17 @@ The plug-in monitors changes in the service in the cluster through a Manager and
 
 ## Plugin Logic
 
-When the plug-in is deployed as a service in a Kubernetes cluster, it establishes a BGP connection with the cluster's border router (Layer 3 switch). Whenever a service with a specific annotation (an annotation is lb.kubesphere.io/v1apha1: porter, see [example] (config/sample/service.yaml)) is created in the cluster, it is dynamically allocated for the service. EIP (users can also specify EIPs themselves). The LB controller creates routes and routes them to the public network (private network) through BGP, so that external services can be accessed.
+When the plug-in is deployed as a service in a Kubernetes cluster, it establishes a BGP connection with the cluster's border router (Layer 3 switch). Whenever a service with a specific annotation (an annotation is lb.kubesphere.io/v1apha1: porter, see [example](config/sample/service.yaml)) is created in the cluster, it is dynamically allocated for the service. EIP (users can also specify EIPs themselves). The LB controller creates routes and routes them to the public network (private network) through BGP, so that external services can be accessed.
 
-The Porter LB controller is a custom controller based on [Kubernetes controller runtime] (https://github.com/kubernetes-sigs/controller-runtime) that automatically changes routing information through changes to the watch service.
+The Porter LB controller is a custom controller based on [Kubernetes controller runtime](https://github.com/kubernetes-sigs/controller-runtime) that automatically changes routing information through changes to the watch service.
 
 ![porter architecture](doc/img/porter-arch.png)
 
 
 ## Deploying plugins
 
-1. [Deployed on a physically deployed k8s cluster] (doc/deploy_baremetal.md)
-2. [Testing with an analog router on Qingyun] (doc/simulate_with_bird.md)
+1. [Deployed on a physically deployed k8s cluster](doc/deploy_baremetal.md)
+2. [Testing with an analog router on Qingyun](doc/simulate_with_bird.md)
 
 ## Building a new plugin from code
 
@@ -42,7 +42,7 @@ The Porter LB controller is a custom controller based on [Kubernetes controller 
 
 1. go 1.11, the plugin uses [gobgp](https://github.com/osrg/gobgp) to create the BGP server, gobgp needs go 1.11
 2. docker, no version limit
-3. kustomize, the plugin uses [kustomize] (https://github.com/kubernetes-sigs/kustomize/blob/master/docs/INSTALL.md) to dynamically generate the k8s yaml files needed for the cluster
+3. kustomize, the plugin uses [kustomize](https://github.com/kubernetes-sigs/kustomize/blob/master/docs/INSTALL.md) to dynamically generate the k8s yaml files needed for the cluster
 4. If the plugin is pushed to the remote private repository, you need to execute `docker login` in advance.
 
 ### Step
@@ -51,7 +51,7 @@ The Porter LB controller is a custom controller based on [Kubernetes controller 
 2. Modify config.toml (located under `config/bgp/`) as required in the tutorial above.
 3. (optional) modify the code according to your needs
 4. (optional) modify the parameters of the image according to your needs (located under `config/manager`)
-5. (optional) Follow the [Simulation Tutorial] (doc/simulate_with_bird.md) to deploy a Bird host, modify the BirdIP in `hack/e2e.sh`, and then run `make e2e-test` for e2e testing.
+5. (optional) Follow the [Simulation Tutorial](doc/simulate_with_bird.md) to deploy a Bird host, modify the BirdIP in `hack/e2e.sh`, and then run `make e2e-test` for e2e testing.
 6. Modify the IMG name in the Makefile, then `make release`, and the final yaml file in the `deploy` directory
 7. `kubectl apply -f deploy/release.yaml` deployment plugin
 
