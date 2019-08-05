@@ -1,15 +1,14 @@
-# 与MetalLB相比
+# Compared with MetalLB
 
-## 优点
-- 支持BGP协议的绝大部分特性。支持多种网络架构。
-- k8s 友好。基于CRD-Controller模式，使用kubectl 控制porter的一切。
-- 配置文件动态更新，无需重启，自动更新BGP配置。根据网络环境灵活配置BGP，动态启用各种BGP特性。
-- 更友好的处理与Calico的冲突，提供Passive模式和端口转发模式
+## Advantage
+- Supports most of the features of the BGP protocol. Support multiple network architectures.
+- K8s friendly. Based on the CRD-Controller mode, use kubectl to control everything about the porter.
+- The configuration file is dynamically updated, and the BGP configuration is automatically updated without restarting. Configure BGP flexibly according to the network environment and dynamically enable various BGP features.
+- More friendly handling of conflicts with Calico, providing Passive mode and port forwarding mode
 
-## 缺点
- - 无法跨平台，仅支持linux
- - 不支持L2（我们认为L2无法实现负载均衡，而且容易导致单点性能瓶颈）
- 
+## Disadvantage
+- Can't cross platform, only support linux
+- L2 is not supported (we think L2 can't achieve load balancing, and it is easy to cause single point performance bottleneck)
 
- ## 共同点
-- 我们都需要更多的测试
+## Commonality
+- We all need more tests
