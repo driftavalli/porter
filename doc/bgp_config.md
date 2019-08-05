@@ -1,9 +1,8 @@
-# BGP Config介绍
+# Introduction to BGP Config
+Porter uses gobgp to exchange routing information with external routers. Starting BGP requires some configuration information (examples are in config/bgp). Currently, there are not many parameters. The following briefly describes how to configure the BGP server used by the plug-in.
 
-Porter使用了[gobgp](https://github.com/osrg/gobgp)来与外部路由器做路由信息交换，启动BGP需要一些配置信息（样例在[config/bgp](https://github.com/kubesphere/porter/blob/master/config/bgp/config.toml)中），目前用到的参数不多，下面简单介绍如何配置插件用到的BGP服务端。
-
-## 示例配置文件
-```toml
+## Sample configuration file
+```
 [global.config]
     as = 65000
     router-id = "192.168.98.111"
@@ -17,8 +16,8 @@ Porter使用了[gobgp](https://github.com/osrg/gobgp)来与外部路由器做路
     [neighbors.add-paths.config]
         send-max = 8
 ```
-配置文件是一个JSON文件，JSON文件有多种表达方式，`toml`、`yaml`和`json`是常见的三种形式，gobgp默认是toml，也可以根据需要转换形式。修改`porter`的进程参数`-t`来指定配置文件的格式。如：
-```yaml
+The configuration file is a JSON file. JSON files have multiple expressions. Toml, yaml, and json are three common forms. Gobgp defaults to toml, and can be converted as needed. Modify the porter's process parameter -t to specify the format of the configuration file. Such as:
+```
  - args:
         - --metrics-addr=127.0.0.1:8080
         - -f
@@ -29,23 +28,26 @@ Porter使用了[gobgp](https://github.com/osrg/gobgp)来与外部路由器做路
         - /manager
 ```
 
-## 全局配置
-> 修改`global.config`来修改全局参数
+## Global configuration
 
-1. `as`是集群所在自治域，必须和相连的路由器所在自治域不同，相同会导致路由无法正确传输，具体原因涉及到`EBGP`和`IBGP`两种协议的不同，这里不多加赘述。
-2. `route-id`表示集群的id，一般取k8s主节点主网卡的ip。
-3. `port`是gobgp监听的端口，默认是179。由于calico也使用了BGP，并且占用了179端口，所以这里必须指定另外的端口。如果集群的路由器不支持非179以外的端口，那么需要在port所在节点开启端口转发，将179映射到非标准端口。
+`Modify global.config to modify global parameters`
 
-## Port配置
-> 和port相关的配置
 
-1.  `using-port-forward`开启端口转发，用于交换机不支持179以外的端口，比如思科交换机。
+1. AS is the autonomous domain in which the cluster resides. It must be different from the autonomous domain of the connected router. The same reason is that the routes cannot be transmitted correctly. The specific reasons are different between EBGP and IBGP.
+2. Router-id indicates the id of the cluster. Generally, the ip of the primary NIC of the k8s primary node is taken.
+3. Port is the port that gobgp listens on. The default is 179. Since calico also uses BGP and occupies port 179, another port must be specified here. If the router in the cluster does not support ports other than 179, you need to enable port forwarding on the node where the port is located and map 179 to a non-standard port.
 
-## 设置邻居
-> 邻居即集群所在的路由器。可以添加多个邻居，大多数情况下只需配置一个。
+## Port configuration
 
-1. `neighbor-address`是路由器所在IP地址。
-2. `peer-as`是邻居所在自治域，必须与集群不同，而且还需要同路由器中配置的参数一致。 如果是私网，一般使用65000以上的自治域。
-3. `send-max`指定发送路由的上限，如果要实现ECMP功能，这个值必须大于1
+`Port-related configuration`
 
-`porter`只使用了gobgp中的一小部分功能，如果有更多的需求，可以参考gobgp的配置文件说明<https://github.com/osrg/gobgp/blob/master/docs/sources/configuration.md>
+1. Using-port-forward enables port forwarding for switches that do not support ports other than 179, such as Cisco switches.
+
+## Set up neighbors
+`The neighbor is the router where the cluster is located. You can add multiple neighbors, and in most cases you only need to configure one.`
+
+1. Neighbor-address is the IP address of the router.
+2. The peer-as is the autonomous domain of the neighbor. It must be the same as the one configured in the router. If it is a private network, it generally uses more than 65,000 autonomous domains.
+3. Send-max specifies the upper limit of the sending route. If ECMP is to be implemented, this value must be greater than 1.
+
+The porter only uses a small part of the function in gobgp. If there are more requirements, please refer to the configuration file description of gobgp https://github.com/osrg/gobgp/blob/master/docs/sources/configuration.md
