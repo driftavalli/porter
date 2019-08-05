@@ -24,7 +24,7 @@ The plug-in monitors changes in the service in the cluster through a Manager and
 
 ## Plugin Logic
 
-When the plug-in is deployed as a service in a Kubernetes cluster, it establishes a BGP connection with the cluster's border router (Layer 3 switch). Whenever a service with a specific annotation (an annotation is lb.kubesphere.io/v1apha1: porter, see [example](config/sample/service.yaml)) is created in the cluster, it is dynamically allocated for the service. EIP (users can also specify EIPs themselves). The LB controller creates routes and routes them to the public network (private network) through BGP, so that external services can be accessed.
+When the plug-in is deployed as a service in a Kubernetes cluster, it establishes a BGP connection with the cluster's border router (Layer 3 switch). Whenever a service with a specific annotation (an annotation is lb.kubesphere.io/v1apha1: porter, see [example](config/samples/service.yaml)) is created in the cluster, it is dynamically allocated for the service. EIP (users can also specify EIPs themselves). The LB controller creates routes and routes them to the public network (private network) through BGP, so that external services can be accessed.
 
 The Porter LB controller is a custom controller based on [Kubernetes controller runtime](https://github.com/kubernetes-sigs/controller-runtime) that automatically changes routing information through changes to the watch service.
 
